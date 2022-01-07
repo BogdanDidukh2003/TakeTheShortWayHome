@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class GraphBuilder : MonoBehaviour
 {
-    static Graph<Waypoint> graph;
+    static Graph<Waypoint> graph = new Graph<Waypoint>();
 
     #region Constructor
 
@@ -37,8 +37,25 @@ public class GraphBuilder : MonoBehaviour
     public void Awake()
     {
         // add nodes (all waypoints, including start and end) to graph
+        foreach (Transform child in transform)
+        {
+            graph.AddNode(child.GetComponent<Waypoint>());
+        }
 
         // add neighbors for each node in graph
+        foreach (GraphNode<Waypoint> firstNode in graph.Nodes)
+        {
+            foreach (GraphNode<Waypoint> secondNode in graph.Nodes)
+            {
+                if (firstNode != secondNode &&
+                    Mathf.Abs(firstNode.Value.Position.x - secondNode.Value.Position.x) <= 3.5f &&
+                    Mathf.Abs(firstNode.Value.Position.y - secondNode.Value.Position.y) <= 3.0f)
+                {
+                    firstNode.AddNeighbor(secondNode,
+                        Vector3.Distance(firstNode.Value.Position, secondNode.Value.Position));
+                }
+            }
+        }
     }
 
     /// <summary>
