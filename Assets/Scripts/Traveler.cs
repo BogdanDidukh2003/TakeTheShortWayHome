@@ -39,7 +39,7 @@ public class Traveler : MonoBehaviour
 
 	#endregion
 	
-    #region Properties
+		#region Properties
 
     /// <summary>
     /// Gets the length of the final path
@@ -105,37 +105,48 @@ public class Traveler : MonoBehaviour
 		// Create a search list (a sorted linked list) of search nodes 
 		// (I provided a SearchNode class, which you should instantiate 
 		// with Waypoint. I also provided a SortedLinkedList class)
-
+		SortedLinkedList<SearchNode<Waypoint>> searchNodes = new SortedLinkedList<SearchNode<Waypoint>>();
 			
 		// Create a dictionary of search nodes keyed by the corresponding 
 		// graph node. This dictionary gives us a very fast way to determine 
 		// if the search node corresponding to a graph node is still in the 
 		// search list
-
+		Dictionary<GraphNode<Waypoint>, SearchNode<Waypoint>> searchNodesByGraphNodes =
+			new Dictionary<GraphNode<Waypoint>, SearchNode<Waypoint>>();
 
         // Save references to the start and end graph nodes in variables
-
+        GraphNode<Waypoint> startNode = new GraphNode<Waypoint>(start);
+        GraphNode<Waypoint> endNode = new GraphNode<Waypoint>(end);
 
         // for each graph node in the graph
+        foreach (GraphNode<Waypoint> graphNode in graph.Nodes)
+        {
 
 			// Create a search node for the graph node (the constructor I 
 			// provided in the SearchNode class initializes distance to the max
 			// float value and previous to null)
+			SearchNode<Waypoint> searchNode = new SearchNode<Waypoint>(graphNode);
 
 			
 			// If the graph node is the start node
+			if (graphNode == startNode)
+			{
 
 				// Set the distance for the search node to 0
+				searchNode.Distance = 0;
+			}
 
 			
 			// Add the search node to the search list 
-
+			searchNodes.Add(searchNode);
 			
 			// Add the search node to the dictionary keyed by the graph node
+			searchNodesByGraphNodes.Add(graphNode, searchNode);
 
-
+        }
         // While the search list isn't empty
-
+        while (searchNodes.Count != 0)
+        {
 			// Save a reference to the current search node (the first search 
 			// node in the search list) in a variable. We do this because the
 			// front of the search list has the smallest distance
@@ -199,6 +210,8 @@ public class Traveler : MonoBehaviour
 						// have moved it forward in the search list
 			
 
+	        
+        }
         // didn't find a path from start to end nodes
         return null;
     }

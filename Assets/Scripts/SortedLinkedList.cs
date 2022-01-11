@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -24,7 +25,18 @@ public class SortedLinkedList<T> : LinkedList<T> where T:IComparable
     /// <param name="item">item to add to list</param>
     public void Add(T item)
     {
-        // add your code here
+        LinkedListNode<T> currentNode = First;
+        while (currentNode != Last)
+        {
+            if (currentNode.Value.CompareTo(item) >= 0)
+            {
+                AddBefore(currentNode, item);
+                return;
+            }
+
+            currentNode = currentNode.Next;
+        }
+        AddLast(item);
     }
 
     /// <summary>
