@@ -42,10 +42,6 @@ public class Graph<T>
         get { return nodes.AsReadOnly(); }
     }
 
-    public T Start { get; set; }
-
-    public T Finish { get; set; }
-
     #endregion
 
     #region Methods

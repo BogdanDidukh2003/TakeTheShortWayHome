@@ -26,7 +26,7 @@ public class SortedLinkedList<T> : LinkedList<T> where T:IComparable
     public void Add(T item)
     {
         LinkedListNode<T> currentNode = First;
-        while (currentNode != Last)
+        while (currentNode != null)
         {
             if (currentNode.Value.CompareTo(item) >= 0)
             {

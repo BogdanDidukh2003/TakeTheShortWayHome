@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -62,10 +63,16 @@ public class Traveler : MonoBehaviour
 	/// 
 	/// Note: Leave this method public to support automated grading
 	/// </summary>
-	public void Start()
+
+	public void Awake()
 	{
 		EventManager.AddPathFoundInvoker(this);
-		Search(GraphBuilder.Graph.Start, GraphBuilder.Graph.Finish, GraphBuilder.Graph);
+	}
+
+	public void Start()
+	{
+		
+		Search(GraphBuilder.Start, GraphBuilder.End, GraphBuilder.Graph);
 	}
 	
 	#endregion
@@ -130,7 +137,7 @@ public class Traveler : MonoBehaviour
 
 			
 			// If the graph node is the start node
-			if (graphNode == startNode)
+			if (graphNode.Value == startNode.Value)
 			{
 
 				// Set the distance for the search node to 0
@@ -165,7 +172,7 @@ public class Traveler : MonoBehaviour
 	        searchNodesByGraphNodes.Remove(currentGraphNode);
 
 	        // If the current graph node is the end node
-	        if (currentGraphNode == endNode)
+	        if (currentGraphNode.Value == endNode.Value)
 	        {
 		        // Display the distance for the current search node as the path 
 		        // length in the scene (Hint: I used the HUD and the event 
@@ -252,6 +259,10 @@ public class Traveler : MonoBehaviour
             previous = previous.Previous;
         }
 
+        foreach (Waypoint waypoint in path)
+        {
+	        Debug.LogError(waypoint.Id);
+        }
         return path;
     }
 	
