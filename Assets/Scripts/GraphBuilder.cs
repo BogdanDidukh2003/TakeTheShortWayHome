@@ -39,7 +39,18 @@ public class GraphBuilder : MonoBehaviour
         // add nodes (all waypoints, including start and end) to graph
         foreach (Transform child in transform)
         {
-            graph.AddNode(child.GetComponent<Waypoint>());
+            var currentWaypoint = child.GetComponent<Waypoint>();
+            graph.AddNode(currentWaypoint);
+
+            switch (currentWaypoint.Id)
+            {
+                case 0:
+                    graph.Start = currentWaypoint;
+                    break;
+                case 31:
+                    graph.Finish = currentWaypoint;
+                    break;
+            }
         }
 
         // add neighbors for each node in graph

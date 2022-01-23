@@ -47,7 +47,8 @@ public class SortedLinkedList<T> : LinkedList<T> where T:IComparable
     /// </summary>
     public void Reposition(T item)
     {
-        // add your code here
+        Remove(item);
+        Add(item);
     }
 
     #endregion
